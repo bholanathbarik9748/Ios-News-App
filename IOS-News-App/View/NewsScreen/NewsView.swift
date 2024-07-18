@@ -9,7 +9,17 @@ import SwiftUI
 
 struct NewsView: View {
     var body: some View {
-        Text("NewsView")
+        VStack{
+            TopList()
+            
+            ScrollView(.vertical, showsIndicators: false){
+                NewsCard()
+                NewsCard()
+                NewsCard()
+                NewsCard()
+                NewsCard()
+            }
+        }
     }
 }
 

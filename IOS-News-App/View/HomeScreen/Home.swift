@@ -24,7 +24,7 @@ struct Home: View {
                     Label("Bookmarks", systemImage: "bookmark.fill")
                 }
         }
-        .accentColor(Color.primary)
+        .accentColor(Color("Primary"))
     }
 }
 
