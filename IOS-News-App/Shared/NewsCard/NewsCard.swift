@@ -2,31 +2,42 @@ import SwiftUI
 
 struct NewsCard: View {
     private let helper = Helper()
-    
-    let imgUrl = "https://media.wired.com/photos/6672c421e0704c563b4e7b77/191:100/w_1280,c_limit/GettyImages-80973767.jpg"
+    let articleData: Articles
     
     var body: some View {
         VStack(spacing: 10) {
-            AsyncImage(url: URL(string: imgUrl)) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 150)
-                    .clipped()
-                    .cornerRadius(10)
-            } placeholder: {
-                ProgressView()
-                    .frame(height: 150)
+            AsyncImage(url: URL(string: articleData.urlToImage ?? "")) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 150)
+                        .clipped()
+                        .cornerRadius(10)
+                case .failure(_):
+                    Image(systemName: "exclamationmark.triangle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 150)
+                        .clipped()
+                        .cornerRadius(10)
+                case .empty:
+                    ProgressView()
+                        .frame(height: 150)
+                @unknown default:
+                    EmptyView()
+                }
             }
             
             VStack(alignment: .leading, spacing: 8) {
-                Text("This Ancient Technology Is Helping Millions Stay Cool")
+                Text(articleData.title ?? " ")
                     .font(.headline)
                     .foregroundColor(.primary)
                     .lineLimit(2) // Ensures the text does not overflow
                 
                 HStack {
-                    if let formattedTime = helper.convertTimestampToReadableDateAndTime("2024-07-09T15:42:42Z") {
+                    if let formattedTime = helper.convertTimestampToReadableDateAndTime(articleData.publishedAt ?? " ") {
                         Text(formattedTime)
                             .font(.caption)
                             .foregroundColor(.secondary)
@@ -64,5 +75,14 @@ struct NewsCard: View {
 }
 
 #Preview {
-    NewsCard()
+    NewsCard(articleData: Articles(
+        source: Source(id: "google-news", name: "Google News"),
+        author: "Al Jazeera English",
+        title: "Slow recovery after CrowdStrike update sparks global IT outage",
+        description: "Description of the article",
+        url: "https://news.google.com/rss/articles/...",
+        urlToImage: "https://example.com/image.jpg",
+        publishedAt: "2024-07-20T09:11:15Z",
+        content: "Content of the article"
+    ))
 }

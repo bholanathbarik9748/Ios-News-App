@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct NewsModel : Codable {
+struct NewsResponse : Codable {
     let status: String?
     let totalResults: Int?
     let articles : [Articles]?
 }
 
 struct Articles : Codable {
-    let source : [Source]?
+    let source : Source
     let author : String?
     let title : String?
     let description : String?
