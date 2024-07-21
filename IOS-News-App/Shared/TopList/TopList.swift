@@ -1,10 +1,3 @@
-//
-//  TopList.swift
-//  IOS-News-App
-//
-//  Created by Bholanath Barik on 17/07/24.
-//
-
 import SwiftUI
 
 struct TopList: View {
@@ -21,23 +14,28 @@ struct TopList: View {
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
+            HStack(spacing: 12) {
                 ForEach(newsTopic, id: \.self) { topic in
                     Button(action: {
-                        print(topic);
-                    }){
+                        print(topic)
+                    }) {
                         Text(topic)
-                            .padding(.horizontal,20)
-                            .padding(.vertical,10)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
                             .background(Color("Primary"))
                             .foregroundColor(Color("Secondary"))
                             .cornerRadius(10)
-                            .font(.footnote)
+                            .font(.headline)
                             .bold()
+                            .shadow(radius: 2)
+                            .scaleEffect(1.0, anchor: .center)
+                            .animation(.easeInOut(duration: 0.2), value: topic) // Animation for button press effect
                     }
+                    .buttonStyle(PlainButtonStyle()) // Prevents default button style changes
                 }
             }
         }
+        .frame(height: 50) // Ensure a consistent height for the scroll view
         .padding(.horizontal)
     }
 }

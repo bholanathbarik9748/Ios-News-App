@@ -1,10 +1,3 @@
-//
-//  News Card.swift
-//  IOS-News-App
-//
-//  Created by Bholanath Barik on 16/07/24.
-//
-
 import SwiftUI
 
 struct NewsCard: View {
@@ -17,9 +10,10 @@ struct NewsCard: View {
             AsyncImage(url: URL(string: imgUrl)) { image in
                 image
                     .resizable()
-                    .scaledToFill()
+                    .aspectRatio(contentMode: .fill)
                     .frame(height: 150)
                     .clipped()
+                    .cornerRadius(10)
             } placeholder: {
                 ProgressView()
                     .frame(height: 150)
@@ -29,10 +23,11 @@ struct NewsCard: View {
                 Text("This Ancient Technology Is Helping Millions Stay Cool")
                     .font(.headline)
                     .foregroundColor(.primary)
+                    .lineLimit(2) // Ensures the text does not overflow
                 
                 HStack {
-                    if let formatedTime = helper.convertTimestampToReadableDateAndTime("2024-07-09T15:42:42Z") {
-                        Text(formatedTime)
+                    if let formattedTime = helper.convertTimestampToReadableDateAndTime("2024-07-09T15:42:42Z") {
+                        Text(formattedTime)
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -48,20 +43,22 @@ struct NewsCard: View {
                             Text("Save")
                                 .font(.caption)
                         }
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
                         .background(Color.blue.opacity(0.1))
                         .foregroundColor(.blue)
                         .cornerRadius(8)
+                        .shadow(color: Color.blue.opacity(0.2), radius: 2, x: 0, y: 2) // Subtle shadow effect
                     }
                 }
             }
             .padding()
             .background(Color(.systemBackground))
+            .cornerRadius(10) // Rounded corners for the content
         }
         .background(Color(.systemBackground))
         .cornerRadius(10)
-        .shadow(radius: 5)
+        .shadow(radius: 10, x: 0, y: 5) // Larger shadow for a more elevated look
         .padding(.horizontal)
     }
 }

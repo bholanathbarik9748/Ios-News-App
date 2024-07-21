@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct NewsView: View {
+    @StateObject private var searchViewModel = SearchViewModel()
+    
     var body: some View {
         VStack{
+            SearchBar()
+                .environmentObject(searchViewModel)
+            
             TopList()
             
             ScrollView(.vertical, showsIndicators: false){
